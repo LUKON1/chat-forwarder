@@ -535,7 +535,7 @@ if ((RUN_MODE === "all" || RUN_MODE === "api") && process.env.NODE_ENV !== "test
     bot.api.setWebhook(tgWebhookUrl).then(() => {
       console.log("[Telegram] Webhook set successfully");
     }).catch(err => {
-      console.error("[Telegram] Failed to set webhook:", err.message);
+      console.error("[Telegram] Failed to set webhook:", err);
     });
   } else {
     console.log("[API] BASE_DOMAIN not set. Fallback to Long Polling...");

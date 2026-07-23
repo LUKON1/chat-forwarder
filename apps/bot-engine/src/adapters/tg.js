@@ -212,8 +212,14 @@ export class TelegramAdapter extends BaseAdapter {
     try {
       const body = await req.json();
       if (!this.botInitialized) {
-        await bot.init();
-        this.botInitialized = true;
+        try {
+          await bot.init();
+          this.botInitialized = true;
+        } catch (initErr) {
+          console.error("Failed to initialize Telegram bot info via API:", initErr.message);
+          bot.botInfo = { id: 0, is_bot: true, first_name: "ChatsForwarder", username: "chatsForwarderbot" };
+          this.botInitialized = true;
+        }
       }
       await bot.handleUpdate(body);
       return new Response(JSON.stringify({ success: true }), {

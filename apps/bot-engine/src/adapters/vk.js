@@ -328,16 +328,16 @@ export class VkAdapter extends BaseAdapter {
     try {
       const body = await req.json();
 
-      // Verify VK secret key if configured
+      if (body.type === "confirmation") {
+        const confirmationCode = process.env.VK_CONFIRMATION_CODE || "";
+        return new Response(confirmationCode, { status: 200 });
+      }
+
+      // Verify VK secret key if configured for message events
       const vkSecret = process.env.VK_SECRET_KEY;
       if (vkSecret && body.secret !== vkSecret) {
         console.warn("VK Webhook secret mismatch");
         return new Response("forbidden", { status: 403 });
-      }
-      
-      if (body.type === "confirmation") {
-        const confirmationCode = process.env.VK_CONFIRMATION_CODE || "";
-        return new Response(confirmationCode, { status: 200 });
       }
 
       if (body.type === "message_new") {
