@@ -11,9 +11,10 @@ export const agent = getProxyAgent("api.telegram.org");
 export const fetchWithRetry = async (url, options, retries = 3, backoff = 500) => {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
+      const currentAgent = getProxyAgent("api.telegram.org");
       const fetchOptions = { ...options };
-      if (agent) {
-        fetchOptions.agent = agent;
+      if (currentAgent) {
+        fetchOptions.agent = currentAgent;
       }
       return await nodeFetch(url, fetchOptions);
     } catch (err) {
