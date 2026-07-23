@@ -7,18 +7,38 @@ const TG_BOT_TOKEN = process.env.TG_BOT_TOKEN || "123456:fake-token-for-testing-
 
 // Generate proxy agent for Telegram API
 export const agent = getProxyAgent("api.telegram.org");
-// Use node-fetch in Bun environment because native fetch does not support proxy agents
-// Configure grammy to route requests through proxy agent using node-fetch
-const botConfig = agent ? {
-  client: {
-    fetch: (url, options) => {
-      return nodeFetch(url, {
-        ...options,
-        agent
-      });
+// Helper to fetch with automatic retries on socket resets (ECONNRESET / ETIMEDOUT)
+export const fetchWithRetry = async (url, options, retries = 3, backoff = 500) => {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const fetchOptions = { ...options };
+      if (agent) {
+        fetchOptions.agent = agent;
+      }
+      return await nodeFetch(url, fetchOptions);
+    } catch (err) {
+      const isSocketReset =
+        err.code === "ECONNRESET" ||
+        err.code === "ETIMEDOUT" ||
+        err.code === "ECONNREFUSED" ||
+        err.code === "EPIPE" ||
+        err.name === "FetchError";
+
+      if (isSocketReset && attempt < retries) {
+        console.warn(`[Telegram API] Request attempt ${attempt} failed (${err.code || err.message}). Retrying in ${backoff * attempt}ms...`);
+        await new Promise((r) => setTimeout(r, backoff * attempt));
+        continue;
+      }
+      throw err;
     }
   }
-} : {};
+};
+
+const botConfig = {
+  client: {
+    fetch: fetchWithRetry
+  }
+};
 export const bot = new Bot(TG_BOT_TOKEN, botConfig);
 
 // Start Telegram listener (Long Polling)

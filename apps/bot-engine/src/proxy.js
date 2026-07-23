@@ -36,25 +36,14 @@ function isDirectConnection(url) {
   );
 }
 
-// Helper to get or create a cached proxy agent instance
-function getCachedAgent(proxyUrl, targetDomain) {
-  if (agentCache.has(proxyUrl)) {
-    return agentCache.get(proxyUrl);
-  }
-
-  let agent;
+// Helper to create a proxy agent instance for target domain
+function createProxyAgent(proxyUrl, targetDomain) {
   if (proxyUrl.startsWith("socks")) {
-    console.log(`[Proxy] Initializing SOCKS proxy for ${targetDomain || "any"}`);
-    agent = new SocksProxyAgent(proxyUrl);
+    return new SocksProxyAgent(proxyUrl);
   } else if (proxyUrl.startsWith("http")) {
-    console.log(`[Proxy] Initializing HTTP/HTTPS proxy for ${targetDomain || "any"}`);
-    agent = new HttpsProxyAgent(proxyUrl);
+    return new HttpsProxyAgent(proxyUrl);
   }
-
-  if (agent) {
-    agentCache.set(proxyUrl, agent);
-  }
-  return agent;
+  return undefined;
 }
 
 // Generate SOCKS/HTTP agent based on platform-specific or global configurations
@@ -85,7 +74,7 @@ export function getProxyAgent(targetDomainOrPlatform) {
     return undefined;
   }
 
-  // 5. Retrieve cached agent
-  return getCachedAgent(proxyUrl, targetDomainOrPlatform);
+  // 5. Create fresh proxy agent instance
+  return createProxyAgent(proxyUrl, targetDomainOrPlatform);
 }
 
