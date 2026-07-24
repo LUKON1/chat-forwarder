@@ -296,31 +296,51 @@ export class VkAdapter extends BaseAdapter {
     return attachmentString;
   }
 
-  // Helper to fetch URL to memory buffer
-  async downloadUrlToBuffer(url) {
+  // Helper to fetch URL to memory buffer with proxy support, size safety check and retries
+  async downloadUrlToBuffer(url, maxSizeBytes = 50 * 1024 * 1024, retries = 3) {
     const hostname = new URL(url).hostname;
     const proxyAgent = getProxyAgent(hostname);
     const fetchOptions = proxyAgent ? { agent: proxyAgent } : {};
-    
-    const res = await nodeFetch(url, fetchOptions);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch file to buffer: ${res.status} for URL ${url}`);
+
+    for (let attempt = 1; attempt <= retries; attempt++) {
+      try {
+        const res = await nodeFetch(url, fetchOptions);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status} for URL ${url}`);
+        }
+        
+        const contentLength = Number(res.headers.get("content-length"));
+        if (contentLength && contentLength > maxSizeBytes) {
+          throw new Error(`File size ${contentLength} bytes exceeds limit of ${maxSizeBytes} bytes`);
+        }
+
+        const arrayBuffer = await res.arrayBuffer();
+        return Buffer.from(arrayBuffer);
+      } catch (err) {
+        if (attempt === retries) throw err;
+        await new Promise((resolve) => setTimeout(resolve, 500 * attempt));
+      }
     }
-    const arrayBuffer = await res.arrayBuffer();
-    return Buffer.from(arrayBuffer);
   }
 
-  // Downloads file from VK and returns ReadableStream
-  async downloadFileStream(url) {
+  // Downloads file from VK and returns ReadableStream with proxy support and retries
+  async downloadFileStream(url, retries = 3) {
     const hostname = new URL(url).hostname;
     const proxyAgent = getProxyAgent(hostname);
     const fetchOptions = proxyAgent ? { agent: proxyAgent } : {};
-    
-    const res = await nodeFetch(url, fetchOptions);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch VK file stream: ${res.status} for URL ${url}`);
+
+    for (let attempt = 1; attempt <= retries; attempt++) {
+      try {
+        const res = await nodeFetch(url, fetchOptions);
+        if (!res.ok) {
+          throw new Error(`Failed to fetch VK file stream: ${res.status} for URL ${url}`);
+        }
+        return res.body;
+      } catch (err) {
+        if (attempt === retries) throw err;
+        await new Promise((resolve) => setTimeout(resolve, 500 * attempt));
+      }
     }
-    return res.body; // Readable stream
   }
 
   // Handles VK Callback API HTTP Webhooks

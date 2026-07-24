@@ -17,8 +17,14 @@ function detectPlatform(domain) {
   if (domainToPlatform[domain]) return domainToPlatform[domain];
   
   const lowerDomain = domain.toLowerCase();
-  if (lowerDomain.includes("telegram") || lowerDomain.includes("telegr.am")) return "tg";
-  if (lowerDomain.includes("vk.com") || lowerDomain.includes("userapi.com")) return "vk";
+  if (lowerDomain.includes("telegram") || lowerDomain.includes("telegr.am") || lowerDomain.includes("t.me")) return "tg";
+  if (
+    lowerDomain.includes("vk.com") ||
+    lowerDomain.includes("userapi.com") ||
+    lowerDomain.includes("vk.me")
+  ) {
+    return "vk";
+  }
   
   return null;
 }
@@ -31,19 +37,27 @@ function isDirectConnection(url) {
     normalized === "false" ||
     normalized === "none" ||
     normalized === "direct" ||
-    normalized === "host" ||
     normalized === ""
   );
 }
 
-// Helper to create a proxy agent instance for target domain
-function createProxyAgent(proxyUrl, targetDomain) {
-  if (proxyUrl.startsWith("socks")) {
-    return new SocksProxyAgent(proxyUrl);
-  } else if (proxyUrl.startsWith("http")) {
-    return new HttpsProxyAgent(proxyUrl);
+// Helper to create or fetch a cached proxy agent instance
+function createProxyAgent(proxyUrl) {
+  if (agentCache.has(proxyUrl)) {
+    return agentCache.get(proxyUrl);
   }
-  return undefined;
+
+  let agent = undefined;
+  if (proxyUrl.startsWith("socks")) {
+    agent = new SocksProxyAgent(proxyUrl, { lookup: false });
+  } else if (proxyUrl.startsWith("http")) {
+    agent = new HttpsProxyAgent(proxyUrl);
+  }
+
+  if (agent) {
+    agentCache.set(proxyUrl, agent);
+  }
+  return agent;
 }
 
 // Generate SOCKS/HTTP agent based on platform-specific or global configurations
@@ -74,7 +88,7 @@ export function getProxyAgent(targetDomainOrPlatform) {
     return undefined;
   }
 
-  // 5. Create fresh proxy agent instance
-  return createProxyAgent(proxyUrl, targetDomainOrPlatform);
+  // 5. Create or retrieve cached proxy agent instance
+  return createProxyAgent(proxyUrl);
 }
 
