@@ -49,7 +49,7 @@ function createProxyAgent(proxyUrl) {
 
   let agent = undefined;
   if (proxyUrl.startsWith("socks")) {
-    agent = new SocksProxyAgent(proxyUrl, { lookup: false });
+    agent = new SocksProxyAgent(proxyUrl);
   } else if (proxyUrl.startsWith("http")) {
     agent = new HttpsProxyAgent(proxyUrl);
   }
