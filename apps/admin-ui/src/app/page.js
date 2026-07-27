@@ -2,19 +2,20 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import DashboardPreview from "@/components/DashboardPreview";
+import DashboardPreview from "@/components/landing/DashboardPreview";
 import { useLanguage } from "@/context/LanguageContext";
+import Card from "@/components/ui/Card";
 
 export default function Home() {
   const { t } = useLanguage();
   const containerRef = useRef(null);
 
-  // Entrance animations for the landing page elements
+  /* Entrance animations for the landing page elements */
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
       
-      // Animate badge, main headline, and sub headline
+      /* Animate badge, main headline, and sub headline */
       tl.from(".hero-text > *", {
         y: 40,
         opacity: 0,
@@ -23,7 +24,7 @@ export default function Home() {
         ease: "power3.out"
       });
 
-      // Animate interactive dashboard component wrapper
+      /* Animate interactive dashboard component wrapper */
       tl.from(".dashboard-preview-wrapper", {
         scale: 0.96,
         opacity: 0,
@@ -31,7 +32,7 @@ export default function Home() {
         ease: "power2.out"
       }, "-=0.5");
 
-      // Animate lower CTA/info blocks
+      /* Animate lower CTA/info blocks */
       tl.from(".cta-box", {
         y: 30,
         opacity: 0,
@@ -54,7 +55,7 @@ export default function Home() {
         {/* Hero Section */}
         <main className="my-12 md:my-20 flex flex-col space-y-10">
           <div className="space-y-6 hero-text">
-            <div className="inline-block bg-tropical-teal-500 text-black text-xs font-bold uppercase tracking-widest px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000]">
+            <div className="inline-block bg-tropical-teal-500 text-black text-xs font-bold neo-badge px-3 py-1">
               {t("smm_automation")}
             </div>
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter uppercase leading-none text-lime-cream-200">
@@ -72,18 +73,18 @@ export default function Home() {
 
           {/* Call to Actions & Details */}
           <div className="flex flex-col md:flex-row gap-6">
-            <div className="flex-1 neo-box p-6 bg-yale-blue-900 cta-box">
+            <Card className="flex-1 p-6 cta-box">
               <h3 className="text-xl font-bold uppercase mb-2 text-lime-cream-300">{t("reliable_title")}</h3>
               <p className="text-sm text-lime-cream-400">
                 {t("reliable_desc")}
               </p>
-            </div>
-            <div className="flex-1 neo-box p-6 bg-yale-blue-900 cta-box">
+            </Card>
+            <Card className="flex-1 p-6 cta-box">
               <h3 className="text-xl font-bold uppercase mb-2 text-lime-cream-300">{t("flow_title")}</h3>
               <p className="text-sm text-lime-cream-400">
                 {t("flow_desc")}
               </p>
-            </div>
+            </Card>
           </div>
         </main>
 

@@ -112,57 +112,65 @@ async function processDelivery(data) {
 
   const attachments = messageData.attachments || [];
 
-  // 1. Send text only if no attachments
-  if (attachments.length === 0) {
-    if (messageData.text) {
-      await targetAdapter.sendMessage(targetChatId, caption);
+  try {
+    // 1. Send text only if no attachments
+    if (attachments.length === 0) {
+      if (messageData.text) {
+        await targetAdapter.sendMessage(targetChatId, caption);
+      }
+      return;
     }
-    return;
-  }
 
-  // 2. Resolve URLs for fileIds (if necessary)
-  for (const attachment of attachments) {
-    if (attachment.fileId && !attachment.url) {
-      attachment.url = await sourceAdapter.getFileUrl(attachment.fileId);
-    }
-  }
-
-  const photos = attachments.filter((a) => a.type === "photo").map((a) => a.url);
-  const docs = attachments.filter((a) => a.type === "doc");
-  const voices = attachments.filter((a) => a.type === "voice");
-
-  let captionUsed = false;
-
-  // 3. Send photo media group or single photo
-  if (photos.length === 1) {
-    await targetAdapter.sendPhoto(targetChatId, photos[0], caption);
-    captionUsed = true;
-  } else if (photos.length > 1) {
-    for (let i = 0; i < photos.length; i += 10) {
-      const chunk = photos.slice(i, i + 10);
-      const chunkCaption = (i === 0) ? caption : undefined;
-      if (chunk.length === 1) {
-        await targetAdapter.sendPhoto(targetChatId, chunk[0], chunkCaption);
-      } else {
-        await targetAdapter.sendMediaGroup(targetChatId, chunk, chunkCaption);
+    // 2. Resolve URLs for fileIds (if necessary)
+    for (const attachment of attachments) {
+      if (attachment.fileId && !attachment.url) {
+        attachment.url = await sourceAdapter.getFileUrl(attachment.fileId);
       }
     }
-    captionUsed = true;
-  }
 
-  // 4. Send docs
-  for (const doc of docs) {
-    const docCaption = captionUsed ? undefined : caption;
-    await targetAdapter.sendDocument(targetChatId, doc.url, doc.filename, docCaption);
-    captionUsed = true;
-  }
+    const photos = attachments.filter((a) => a.type === "photo").map((a) => a.url);
+    const docs = attachments.filter((a) => a.type === "doc");
+    const voices = attachments.filter((a) => a.type === "voice");
 
-  // 5. Send voices
-  for (const voice of voices) {
-    await targetAdapter.sendVoice(targetChatId, voice.url);
-  }
+    let captionUsed = false;
 
-  const attachmentTypes = attachments.map(a => a.type);
-  const attachmentSummary = attachmentTypes.length > 0 ? ` with attachments [${attachmentTypes.join(", ")}]` : " (text only)";
-  console.log(`[Forwarder] Successfully forwarded message from ${sourcePlatform} to ${targetPlatform} (chatId: ${targetChatId})${attachmentSummary}`);
+    // 3. Send photo media group or single photo
+    if (photos.length === 1) {
+      await targetAdapter.sendPhoto(targetChatId, photos[0], caption);
+      captionUsed = true;
+    } else if (photos.length > 1) {
+      for (let i = 0; i < photos.length; i += 10) {
+        const chunk = photos.slice(i, i + 10);
+        const chunkCaption = (i === 0) ? caption : undefined;
+        if (chunk.length === 1) {
+          await targetAdapter.sendPhoto(targetChatId, chunk[0], chunkCaption);
+        } else {
+          await targetAdapter.sendMediaGroup(targetChatId, chunk, chunkCaption);
+        }
+      }
+      captionUsed = true;
+    }
+
+    // 4. Send docs
+    for (const doc of docs) {
+      const docCaption = captionUsed ? undefined : caption;
+      await targetAdapter.sendDocument(targetChatId, doc.url, doc.filename, docCaption);
+      captionUsed = true;
+    }
+
+    // 5. Send voices
+    for (const voice of voices) {
+      await targetAdapter.sendVoice(targetChatId, voice.url);
+    }
+
+    const attachmentTypes = attachments.map(a => a.type);
+    const attachmentSummary = attachmentTypes.length > 0 ? ` with attachments [${attachmentTypes.join(", ")}]` : " (text only)";
+    console.log(`[Forwarder] Successfully forwarded message from ${sourcePlatform} to ${targetPlatform} (chatId: ${targetChatId})${attachmentSummary}`);
+  } catch (err) {
+    const errMsg = (err.message || "").toLowerCase();
+    if (errMsg.includes("kicked") || errMsg.includes("forbidden") || errMsg.includes("not found") || errMsg.includes("901") || errMsg.includes("936")) {
+      console.warn(`[Queue Auto-Cleanup] Access lost to ${targetPlatform} chat ${targetChatId}: ${err.message}`);
+    }
+    throw err;
+  }
 }

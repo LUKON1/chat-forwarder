@@ -77,7 +77,8 @@ export const dbHelper = {
   // Bridge operations
   getBridges: async (userId) => {
     const bridges = await prisma.bridge.findMany({
-      where: { userId }
+      where: { userId },
+      orderBy: { id: "asc" }
     });
     return serializeDbObject(bridges);
   },

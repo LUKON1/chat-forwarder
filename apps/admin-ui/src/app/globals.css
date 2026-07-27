@@ -1,114 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-lime-cream-50: #f7fbe9;
-  --color-lime-cream-100: #f0f8d3;
-  --color-lime-cream-200: #e1f1a7;
-  --color-lime-cream-300: #d2ea7b;
-  --color-lime-cream-400: #c3e250;
-  --color-lime-cream-500: #b4db24;
-  --color-lime-cream-600: #90af1d;
-  --color-lime-cream-700: #6c8415;
-  --color-lime-cream-800: #48580e;
-  --color-lime-cream-900: #242c07;
-  --color-lime-cream-950: #191f05;
-
-  --color-light-green-50: #f2faea;
-  --color-light-green-100: #e4f5d6;
-  --color-light-green-200: #caecac;
-  --color-light-green-300: #afe283;
-  --color-light-green-400: #95d85a;
-  --color-light-green-500: #7acf30;
-  --color-light-green-600: #62a527;
-  --color-light-green-700: #497c1d;
-  --color-light-green-800: #315313;
-  --color-light-green-900: #18290a;
-  --color-light-green-950: #111d07;
-
-  --color-leaf-green-50: #eef9ec;
-  --color-leaf-green-100: #ddf2d9;
-  --color-leaf-green-200: #bbe6b3;
-  --color-leaf-green-300: #99d98c;
-  --color-leaf-green-400: #77cc66;
-  --color-leaf-green-500: #55bf40;
-  --color-leaf-green-600: #449933;
-  --color-leaf-green-700: #337326;
-  --color-leaf-green-800: #224d19;
-  --color-leaf-green-900: #11260d;
-  --color-leaf-green-950: #0c1b09;
-
-  --color-emerald-50: #edf8f1;
-  --color-emerald-100: #dbf0e2;
-  --color-emerald-200: #b6e2c5;
-  --color-emerald-300: #92d3a9;
-  --color-emerald-400: #6dc58c;
-  --color-emerald-500: #49b66f;
-  --color-emerald-600: #3a9259;
-  --color-emerald-700: #2c6d43;
-  --color-emerald-800: #1d492c;
-  --color-emerald-900: #0f2416;
-  --color-emerald-950: #0a1a10;
-
-  --color-ocean-mist-50: #edf7f5;
-  --color-ocean-mist-100: #dbf0ea;
-  --color-ocean-mist-200: #b7e1d5;
-  --color-ocean-mist-300: #93d2c0;
-  --color-ocean-mist-400: #6fc3ab;
-  --color-ocean-mist-500: #4bb496;
-  --color-ocean-mist-600: #3c9078;
-  --color-ocean-mist-700: #2d6c5a;
-  --color-ocean-mist-800: #1e483c;
-  --color-ocean-mist-900: #0f241e;
-  --color-ocean-mist-950: #0b1915;
-
-  --color-tropical-teal-50: #ecf8f9;
-  --color-tropical-teal-100: #d8f2f3;
-  --color-tropical-teal-200: #b1e5e7;
-  --color-tropical-teal-300: #8bd8da;
-  --color-tropical-teal-400: #64cbce;
-  --color-tropical-teal-500: #3dbdc2;
-  --color-tropical-teal-600: #31989b;
-  --color-tropical-teal-700: #257274;
-  --color-tropical-teal-800: #184c4e;
-  --color-tropical-teal-900: #0c2627;
-  --color-tropical-teal-950: #091b1b;
-
-  --color-bondi-blue-50: #e8f7fc;
-  --color-bondi-blue-100: #d2f0f9;
-  --color-bondi-blue-200: #a5e1f3;
-  --color-bondi-blue-300: #78d2ed;
-  --color-bondi-blue-400: #4ac3e8;
-  --color-bondi-blue-500: #1db4e2;
-  --color-bondi-blue-600: #1790b5;
-  --color-bondi-blue-700: #126c87;
-  --color-bondi-blue-800: #0c485a;
-  --color-bondi-blue-900: #06242d;
-  --color-bondi-blue-950: #041920;
-
-  --color-cerulean-50: #e9f6fb;
-  --color-cerulean-100: #d3ecf8;
-  --color-cerulean-200: #a7d9f1;
-  --color-cerulean-300: #7bc7ea;
-  --color-cerulean-400: #50b4e2;
-  --color-cerulean-500: #24a1db;
-  --color-cerulean-600: #1d81af;
-  --color-cerulean-700: #156184;
-  --color-cerulean-800: #0e4058;
-  --color-cerulean-900: #07202c;
-  --color-cerulean-950: #05171f;
-
-  --color-baltic-blue-50: #eaf3fb;
-  --color-baltic-blue-100: #d5e8f6;
-  --color-baltic-blue-200: #aad0ee;
-  --color-baltic-blue-300: #80b9e5;
-  --color-baltic-blue-400: #56a2dc;
-  --color-baltic-blue-500: #2b8bd4;
-  --color-baltic-blue-600: #236fa9;
-  --color-baltic-blue-700: #1a537f;
-  --color-baltic-blue-800: #113755;
-  --color-baltic-blue-900: #091c2a;
-  --color-baltic-blue-950: #06131e;
-
+  /* Primary dark background palette */
   --color-yale-blue-50: #eaf3fb;
   --color-yale-blue-100: #d5e8f6;
   --color-yale-blue-200: #aad0ee;
@@ -121,9 +14,50 @@
   --color-yale-blue-900: #091c2a;
   --color-yale-blue-950: #06131e;
 
+  /* Lime cream accent palette */
+  --color-lime-cream-50: #f7fbe9;
+  --color-lime-cream-100: #f0f8d3;
+  --color-lime-cream-200: #e1f1a7;
+  --color-lime-cream-300: #d2ea7b;
+  --color-lime-cream-400: #c3e250;
+  --color-lime-cream-500: #b4db24;
+  --color-lime-cream-600: #90af1d;
+  --color-lime-cream-700: #6c8415;
+  --color-lime-cream-800: #48580e;
+  --color-lime-cream-900: #242c07;
+  --color-lime-cream-950: #191f05;
+
+  /* Tropical teal secondary accent palette */
+  --color-tropical-teal-50: #ecf8f9;
+  --color-tropical-teal-100: #d8f2f3;
+  --color-tropical-teal-200: #b1e5e7;
+  --color-tropical-teal-300: #8bd8da;
+  --color-tropical-teal-400: #64cbce;
+  --color-tropical-teal-500: #3dbdc2;
+  --color-tropical-teal-600: #31989b;
+  --color-tropical-teal-700: #257274;
+  --color-tropical-teal-800: #184c4e;
+  --color-tropical-teal-900: #0c2627;
+  --color-tropical-teal-950: #091b1b;
+
+  /* Cerulean messenger brand palette */
+  --color-cerulean-50: #e9f6fb;
+  --color-cerulean-100: #d3ecf8;
+  --color-cerulean-200: #a7d9f1;
+  --color-cerulean-300: #7bc7ea;
+  --color-cerulean-400: #50b4e2;
+  --color-cerulean-500: #24a1db;
+  --color-cerulean-600: #1d81af;
+  --color-cerulean-700: #156184;
+  --color-cerulean-800: #0e4058;
+  --color-cerulean-900: #07202c;
+  --color-cerulean-950: #05171f;
+
+  /* Typography tokens */
   --font-sans: var(--font-geist-sans), Arial, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
 
+  /* Pulse animation */
   --animate-pulseFast: pulse-fast 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
   @keyframes pulse-fast {
@@ -144,7 +78,7 @@ html, body {
   padding: 0;
 }
 
-/* Background animated texture simulating looping background without heavy layers */
+/* Background animated grid pattern */
 @utility looping-bg-grid {
   position: fixed;
   inset: 0;
@@ -157,61 +91,39 @@ html, body {
   pointer-events: none;
 }
 
-/* Custom Neo-Brutalist styles */
-@utility neo-box {
+/* Standardized Neo-Brutalist shadow utilities */
+@utility neo-shadow-sm {
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+
+@utility neo-shadow-md {
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+@utility neo-shadow-lg {
+  box-shadow: 6px 6px 0px 0px #000000;
+}
+
+@utility neo-shadow-xl {
+  box-shadow: 8px 8px 0px 0px #000000;
+}
+
+/* Base container card */
+@utility neo-card {
   background-color: var(--color-yale-blue-900);
   border: 2px solid #000000;
   box-shadow: 4px 4px 0px 0px #000000;
   border-radius: 0 !important;
 }
 
-@utility neo-box-accent {
-  border: 2px solid #000000;
-  box-shadow: 4px 4px 0px 0px #000000;
+@utility neo-card-lg {
+  background-color: var(--color-yale-blue-900);
+  border: 4px solid #000000;
+  box-shadow: 8px 8px 0px 0px #000000;
   border-radius: 0 !important;
 }
 
-@utility neo-button {
-  border: 2px solid #000000;
-  box-shadow: 3px 3px 0px 0px #000000;
-  border-radius: 0 !important;
-  transition: transform 0.05s ease, box-shadow 0.05s ease;
-  cursor: pointer;
-
-  &:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0px 0px #000000;
-  }
-}
-
-@utility neo-input {
-  border: 2px solid #000000;
-  background-color: var(--color-yale-blue-950);
-  color: var(--color-lime-cream-50);
-  border-radius: 0 !important;
-  outline: none;
-
-  &:focus {
-    border-color: var(--color-lime-cream-400);
-  }
-}
-
-/* Step connector line between step cards */
-@utility step-connector {
-  position: absolute;
-  left: 27px;
-  top: 100%;
-  width: 2px;
-  height: 40px;
-  background: linear-gradient(
-    to bottom,
-    var(--color-lime-cream-400),
-    transparent
-  );
-  pointer-events: none;
-}
-
-/* Messenger bot link card */
+/* Interactive link/card hover state */
 @utility messenger-card {
   border: 2px solid #000000;
   box-shadow: 4px 4px 0px 0px #000000;
@@ -230,7 +142,108 @@ html, body {
   }
 }
 
-/* Animated code pill for /connect command */
+/* Base interactive button */
+@utility neo-button {
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px 0px #000000;
+  border-radius: 0 !important;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.15s ease;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px 0px #000000;
+  }
+
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px 0px #000000;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: 2px 2px 0px 0px #000000 !important;
+  }
+}
+
+/* Specific button variant classes */
+@utility neo-button-primary {
+  background-color: var(--color-lime-cream-400);
+  color: #000000;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &:hover {
+    background-color: var(--color-lime-cream-300);
+  }
+}
+
+@utility neo-button-secondary {
+  background-color: var(--color-yale-blue-950);
+  color: var(--color-lime-cream-200);
+  font-weight: 700;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: var(--color-yale-blue-900);
+    color: var(--color-lime-cream-50);
+  }
+}
+
+@utility neo-button-accent {
+  background-color: var(--color-tropical-teal-500);
+  color: #000000;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &:hover {
+    background-color: var(--color-tropical-teal-400);
+  }
+}
+
+@utility neo-button-danger {
+  background-color: #881337;
+  color: var(--color-lime-cream-100);
+  font-weight: 800;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: #9f1239;
+  }
+}
+
+/* Standardized input fields */
+@utility neo-input {
+  border: 2px solid #000000;
+  background-color: var(--color-yale-blue-950);
+  color: var(--color-lime-cream-50);
+  border-radius: 0 !important;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    border-color: var(--color-lime-cream-400);
+  }
+}
+
+/* Badge pill */
+@utility neo-badge {
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px 0px #000000;
+  border-radius: 0 !important;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Animated code command pill */
 @utility code-pill {
   font-family: var(--font-mono);
   background-color: var(--color-yale-blue-950);

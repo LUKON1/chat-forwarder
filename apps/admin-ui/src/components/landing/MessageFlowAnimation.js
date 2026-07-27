@@ -16,6 +16,7 @@ export default function MessageFlowAnimation({
 }) {
   const containerRef = useRef(null);
   const animalRefs = useRef([]);
+  const timelinesRef = useRef([]);
   const [containerWidth, setContainerWidth] = useState(0);
   const [plateHeight, setPlateHeight] = useState(padding * 2 + iconSize);
 
@@ -58,21 +59,20 @@ export default function MessageFlowAnimation({
   const x_right = containerWidth - D / 2;
   const y_start = plateHeight / 2;            // Dynamic center of VK/TG icons
 
-  // GSAP animation loop for carrier conveyor chain
+  // Build GSAP animation timelines once per layout configuration
   useEffect(() => {
-    if (!isMoving || containerWidth === 0 || animalRefs.current.length === 0) return;
+    if (containerWidth === 0 || animalRefs.current.length === 0) return;
 
     const L_vertical = y_bottom - y_start;
     const L_horizontal = x_right - x_left;
     const L_total = L_vertical * 2 + L_horizontal;
 
-    // Linear duration mapping based on total path length
     const totalDuration = 7;
     const duration_down = totalDuration * (L_vertical / L_total);
     const duration_horizontal = totalDuration * (L_horizontal / L_total);
     const duration_up = totalDuration * (L_vertical / L_total);
 
-    const timelines = [];
+    const newTimelines = [];
     const totalAnimals = animalRefs.current.length;
 
     animalRefs.current.forEach((el, index) => {
@@ -80,7 +80,6 @@ export default function MessageFlowAnimation({
 
       gsap.killTweensOf(el);
       
-      // Hide initially and place at the starting node
       gsap.set(el, {
         xPercent: -50,
         yPercent: -50,
@@ -93,6 +92,7 @@ export default function MessageFlowAnimation({
         repeat: -1,
         delay: (index * totalDuration) / totalAnimals,
         defaults: { ease: "none" },
+        paused: !isMoving,
       });
 
       if (direction === "left-to-right") {
@@ -107,18 +107,36 @@ export default function MessageFlowAnimation({
           .to(el, { y: y_start, duration: duration_up });
       }
 
-      timelines.push(tl);
+      if (!isMoving) {
+        tl.pause();
+      }
+
+      newTimelines.push(tl);
     });
 
+    timelinesRef.current = newTimelines;
+
     return () => {
-      timelines.forEach((tl) => tl.kill());
+      newTimelines.forEach((tl) => tl.kill());
+      timelinesRef.current = [];
     };
-  }, [direction, isMoving, containerWidth, padding, iconSize, y_bottom, x_left, x_right, y_start]);
+  }, [direction, containerWidth, padding, iconSize, y_bottom, x_left, x_right, y_start]);
+
+  // Pause / Resume timelines smoothly without resetting positions
+  useEffect(() => {
+    if (timelinesRef.current.length === 0) return;
+
+    timelinesRef.current.forEach((tl) => {
+      if (isMoving) {
+        tl.resume();
+      } else {
+        tl.pause();
+      }
+    });
+  }, [isMoving]);
 
   const isVk = sourcePlatform === "vk";
   const isLtr = direction === "left-to-right";
-  // VK: Dog runs right (normal = ltr, flipped = rtl)
-  // TG: Bird flies left (normal = rtl, flipped = ltr)
   const scaleX = isVk ? (isLtr ? 1 : -1) : (isLtr ? -1 : 1);
   const gifSrc = isVk ? (dogGif.src || dogGif) : (birdGif.src || birdGif);
 
@@ -239,6 +257,7 @@ export default function MessageFlowAnimation({
             alt={sourcePlatform}
             className="object-contain"
             fill
+            sizes={`${Math.round(animalWidth)}px`}
             unoptimized
           />
         </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import TelegramIcon from "@/assets/icons/TelegramIcon";
 import VkIcon from "@/assets/icons/VkIcon";
-import MessageFlowAnimation from "@/components/MessageFlowAnimation";
+import MessageFlowAnimation from "@/components/landing/MessageFlowAnimation";
 import { useLanguage } from "@/context/LanguageContext";
 import FlowArrowIcon from "@/assets/icons/FlowArrowIcon";
 import LinkArrowIcon from "@/assets/icons/LinkArrowIcon";

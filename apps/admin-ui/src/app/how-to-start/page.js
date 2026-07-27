@@ -7,10 +7,11 @@ import { useLanguage } from "@/context/LanguageContext";
 import TelegramIcon from "@/assets/icons/TelegramIcon";
 import VkIcon from "@/assets/icons/VkIcon";
 import LinkArrowIcon from "@/assets/icons/LinkArrowIcon";
+import Card from "@/components/ui/Card";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* Messenger bots data — extend this array to add more platforms */
+/* Messenger bots data */
 const MESSENGER_BOTS = [
   {
     id: "vk",
@@ -19,8 +20,6 @@ const MESSENGER_BOTS = [
     url: "https://vk.com/club239265109",
     Icon: VkIcon,
     bgClass: "fill-cerulean-600",
-    accent: "bg-cerulean-600",
-    border: "border-cerulean-600",
   },
   {
     id: "tg",
@@ -29,12 +28,38 @@ const MESSENGER_BOTS = [
     url: "https://t.me/chatsForwarderbot",
     Icon: TelegramIcon,
     bgClass: "fill-cerulean-500",
-    accent: "bg-cerulean-500",
-    border: "border-cerulean-500",
   },
 ];
 
-/* Step definitions with unique icon paths */
+/* Step definitions */
+const STEPS = [
+  {
+    num: "01",
+    badgeKey: "docs_step1_badge",
+    titleKey: "docs_step1_title",
+    descKey: "docs_step1_desc",
+  },
+  {
+    num: "02",
+    badgeKey: "docs_step2_badge",
+    titleKey: "docs_step2_title",
+    descKey: "docs_step2_desc",
+  },
+  {
+    num: "03",
+    badgeKey: "docs_step3_badge",
+    titleKey: "docs_step3_title",
+    descKey: "docs_step3_desc",
+    hasCommand: true,
+  },
+  {
+    num: "04",
+    badgeKey: "docs_step4_badge",
+    titleKey: "docs_step4_title",
+    descKey: "docs_step4_desc",
+  },
+];
+
 const STEP_ICONS = {
   1: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
@@ -74,29 +99,29 @@ export default function HowToStart() {
     const ctx = gsap.context(() => {
       /* Header block reveal */
       gsap.from(".docs-header > *", {
-        x: 60,
+        x: 40,
         opacity: 0,
-        duration: 0.9,
-        stagger: 0.14,
+        duration: 0.8,
+        stagger: 0.12,
         ease: "power3.out",
       });
 
       /* Messenger cards fly-in */
       gsap.from(".messenger-bot-card", {
-        y: 30,
+        y: 25,
         opacity: 0,
-        duration: 0.7,
-        stagger: 0.12,
+        duration: 0.65,
+        stagger: 0.1,
         ease: "power2.out",
-        delay: 0.4,
+        delay: 0.3,
       });
 
       /* Step cards scroll-triggered stagger reveal */
       gsap.from(".step-card", {
-        y: 50,
+        y: 40,
         opacity: 0,
-        duration: 0.75,
-        stagger: 0.18,
+        duration: 0.7,
+        stagger: 0.15,
         ease: "power2.out",
         scrollTrigger: {
           trigger: ".steps-section",
@@ -109,7 +134,7 @@ export default function HowToStart() {
       gsap.from(".step-index-line", {
         scaleX: 0,
         transformOrigin: "left center",
-        duration: 0.6,
+        duration: 0.5,
         stagger: 0.1,
         ease: "power3.out",
         scrollTrigger: {
@@ -121,10 +146,10 @@ export default function HowToStart() {
 
       /* Code pill pulse on enter */
       gsap.from(".cmd-pill", {
-        scale: 0.88,
+        scale: 0.9,
         opacity: 0,
         duration: 0.5,
-        ease: "back.out(1.5)",
+        ease: "power2.out",
         scrollTrigger: {
           trigger: ".cmd-pill",
           start: "top 85%",
@@ -136,34 +161,6 @@ export default function HowToStart() {
     return () => ctx.revert();
   }, []);
 
-  const steps = [
-    {
-      num: "01",
-      badgeKey: "docs_step1_badge",
-      titleKey: "docs_step1_title",
-      descKey: "docs_step1_desc",
-    },
-    {
-      num: "02",
-      badgeKey: "docs_step2_badge",
-      titleKey: "docs_step2_title",
-      descKey: "docs_step2_desc",
-    },
-    {
-      num: "03",
-      badgeKey: "docs_step3_badge",
-      titleKey: "docs_step3_title",
-      descKey: "docs_step3_desc",
-      hasCommand: true,
-    },
-    {
-      num: "04",
-      badgeKey: "docs_step4_badge",
-      titleKey: "docs_step4_title",
-      descKey: "docs_step4_desc",
-    },
-  ];
-
   return (
     <div ref={containerRef} className="flex-grow bg-yale-blue-950 text-lime-cream-50 font-sans relative">
       {/* Background Grid Pattern */}
@@ -173,7 +170,7 @@ export default function HowToStart() {
 
         {/* Header */}
         <header className="pt-14 md:pt-20 pb-10 docs-header">
-          <div className="inline-flex items-center gap-2 bg-tropical-teal-500 text-black text-xs font-bold uppercase tracking-widest px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] mb-6">
+          <div className="inline-flex items-center gap-2 bg-tropical-teal-500 text-black text-xs font-mono font-bold neo-badge px-3 py-1 mb-6">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5">
               <path d="M12 2L2 7l10 5 10-5-10-5z" />
               <path d="M2 17l10 5 10-5" />
@@ -181,10 +178,10 @@ export default function HowToStart() {
             </svg>
             {t("how_to_start")}
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none text-lime-cream-200 mb-5">
+          <h1 className="text-4xl md:text-6xl font-mono font-black tracking-tight uppercase leading-none text-lime-cream-200 mb-5">
             {t("docs_intro_title")}
           </h1>
-          <p className="text-lg text-lime-cream-300 max-w-xl font-medium leading-relaxed">
+          <p className="text-sm md:text-base font-mono text-lime-cream-300 max-w-xl leading-relaxed">
             {t("docs_intro_sub")}
           </p>
         </header>
@@ -192,17 +189,17 @@ export default function HowToStart() {
         {/* Messenger Bots Block */}
         <section className="mb-14">
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-xs font-bold uppercase tracking-widest text-lime-cream-500 font-mono">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-lime-cream-500">
               {t("docs_bots_title")}
             </span>
             <div className="flex-1 h-px bg-lime-cream-800" />
           </div>
 
-          <p className="text-sm text-lime-cream-400 mb-5 max-w-md leading-relaxed">
+          <p className="text-xs font-mono text-lime-cream-400 mb-5 max-w-md leading-relaxed">
             {t("docs_bots_sub")}
           </p>
 
-          {/* Bot cards grid — scales naturally for more than 2 bots */}
+          {/* Bot cards grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {MESSENGER_BOTS.map((bot) => (
               <a
@@ -222,10 +219,10 @@ export default function HowToStart() {
                   <div className="text-xs font-bold uppercase tracking-widest text-lime-cream-500 font-mono mb-1">
                     {bot.name}
                   </div>
-                  <div className="text-lime-cream-200 font-bold text-base truncate group-hover:text-lime-cream-400 transition-colors duration-150">
+                  <div className="text-lime-cream-200 font-mono font-bold text-sm truncate group-hover:text-lime-cream-400 transition-colors duration-150">
                     {bot.handle}
                   </div>
-                  <div className="text-xs text-lime-cream-600 font-mono mt-1">
+                  <div className="text-[10px] text-lime-cream-600 font-mono mt-1">
                     {t("docs_bots_admin_note")}
                   </div>
                 </div>
@@ -240,31 +237,31 @@ export default function HowToStart() {
         {/* Steps Section */}
         <section className="steps-section">
           <div className="flex items-center gap-3 mb-8">
-            <span className="text-xs font-bold uppercase tracking-widest text-lime-cream-500 font-mono">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-lime-cream-500">
               {t("how_to_start")}
             </span>
             <div className="flex-1 h-px bg-lime-cream-800" />
           </div>
 
           <div className="flex flex-col gap-0">
-            {steps.map((step, idx) => (
+            {STEPS.map((step, idx) => (
               <div key={step.num} className="step-card relative flex gap-5 pb-10 last:pb-0">
 
                 {/* Left: step number column */}
                 <div className="flex flex-col items-center flex-shrink-0 w-14">
                   {/* Circle badge */}
-                  <div className="w-10 h-10 border-2 border-lime-cream-400 bg-yale-blue-950 flex items-center justify-center text-lime-cream-400 font-black font-mono text-xs z-10 relative shadow-[2px_2px_0px_var(--color-lime-cream-600)]">
+                  <div className="w-10 h-10 border-2 border-lime-cream-400 bg-yale-blue-950 flex items-center justify-center text-lime-cream-400 font-black font-mono text-xs z-10 relative neo-shadow-sm">
                     {STEP_ICONS[idx + 1]}
                   </div>
 
                   {/* Connector line to next step */}
-                  {idx < steps.length - 1 && (
+                  {idx < STEPS.length - 1 && (
                     <div className="flex-1 w-px bg-gradient-to-b from-lime-cream-600 to-transparent mt-2" />
                   )}
                 </div>
 
                 {/* Right: step content */}
-                <div className="neo-box bg-yale-blue-900 p-5 md:p-6 flex-1 mt-0">
+                <Card className="p-5 md:p-6 flex-1 mt-0">
                   {/* Step badge + horizontal rule */}
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-[10px] font-black uppercase tracking-[0.15em] text-lime-cream-600 font-mono">
@@ -274,16 +271,16 @@ export default function HowToStart() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg md:text-xl font-black uppercase tracking-tight mb-2 text-lime-cream-200 leading-snug">
+                  <h3 className="text-base md:text-lg font-mono font-bold uppercase tracking-tight mb-2 text-lime-cream-200 leading-snug">
                     {t(step.titleKey)}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-sm text-lime-cream-400 leading-relaxed max-w-prose">
+                  <p className="text-xs md:text-sm font-mono text-lime-cream-400 leading-relaxed max-w-prose">
                     {t(step.descKey)}
                   </p>
 
-                  {/* /connect command pill — only on step 3 */}
+                  {/* /connect command pill */}
                   {step.hasCommand && (
                     <div className="mt-4">
                       <span className="cmd-pill code-pill">
@@ -291,14 +288,14 @@ export default function HowToStart() {
                       </span>
                     </div>
                   )}
-                </div>
+                </Card>
               </div>
             ))}
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="border-t-4 border-black mt-16 pt-8 flex justify-between items-center text-sm font-mono text-lime-cream-600">
+        <footer className="border-t-4 border-black mt-16 pt-8 flex justify-between items-center text-xs font-mono text-lime-cream-600">
           <div>&copy; {t("footer_text")}</div>
         </footer>
       </div>

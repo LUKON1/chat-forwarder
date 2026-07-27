@@ -18,7 +18,6 @@ export default function Dropdown({ value, onChange, options, placeholder = "Sele
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
-
   const listRef = useRef(null);
 
   /* Find active option label */
@@ -38,7 +37,7 @@ export default function Dropdown({ value, onChange, options, placeholder = "Sele
     };
   }, []);
 
-  // Animating options list height/fade with GSAP
+  /* Animating options list height/fade with GSAP */
   useEffect(() => {
     if (!listRef.current) return;
 
@@ -80,7 +79,7 @@ export default function Dropdown({ value, onChange, options, placeholder = "Sele
       {/* Dropdown Options List */}
       <div 
         ref={listRef}
-        className="absolute left-0 right-0 mt-1.5 bg-yale-blue-900 border-2 border-black shadow-[4px_4px_0px_#000000] z-50 font-mono text-sm max-h-60 overflow-y-auto invisible opacity-0"
+        className="absolute left-0 right-0 mt-1.5 bg-yale-blue-900 border-2 border-black neo-shadow-md z-50 font-mono text-sm max-h-60 overflow-y-auto invisible opacity-0"
         style={{ height: 0 }}
       >
         {options.length === 0 ? (

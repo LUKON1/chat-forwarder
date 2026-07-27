@@ -131,6 +131,16 @@ const translations = {
     docs_step4_desc: "Перейдите во вкладку 'Маршруты', нажмите '+ Создать маршрут', выберите источник и назначение. Пересылка запустится мгновенно.",
     docs_connect_cmd: "/connect <ваш_пин_код>",
     docs_bots_admin_note: "Требуются права администратора",
+    generate_code: "Сгенерировать код",
+    pin_code_title: "Ваш пин-код подключения",
+    copy_command: "Скопировать команду",
+    onboarding_step_1: "Добавьте нашего бота в целевую группу или канал как администратора.",
+    onboarding_step_2: "Отправьте боту в чат команду:",
+    bot_link_hint: "Бот для вашей платформы:",
+    open_in_messenger: "Перейти к боту",
+    paused: "ПАУЗА",
+    health_ok: "Связь в порядке",
+    health_error: "Ошибка доступа бота в чат",
   },
   en: {
     // Landing
@@ -259,6 +269,16 @@ const translations = {
     docs_step4_desc: "Go to the 'Routes' tab, click '+ Create Route', pick a source and a destination. Forwarding starts immediately.",
     docs_connect_cmd: "/connect <your_pin_code>",
     docs_bots_admin_note: "Administrator rights required",
+    generate_code: "Generate code",
+    pin_code_title: "Your connection PIN-code",
+    copy_command: "Copy command",
+    onboarding_step_1: "Add our bot to the target group or channel as an administrator.",
+    onboarding_step_2: "Send the following command to the bot in the chat:",
+    bot_link_hint: "Bot for your platform:",
+    open_in_messenger: "Open Bot",
+    paused: "PAUSED",
+    health_ok: "Connection healthy",
+    health_error: "Bot chat access error",
   }
 }
 
